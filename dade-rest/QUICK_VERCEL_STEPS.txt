@@ -1,0 +1,99 @@
+================================================================================
+DEPLOY TO VERCEL IN 5 MINUTES
+================================================================================
+
+STEP 1: Create GitHub Account
+  1. Go to https://github.com/signup
+  2. Sign up with email
+  3. Verify email
+
+STEP 2: Create GitHub Repository
+  1. Go to https://github.com/new
+  2. Repository name: dade-rest
+  3. Description: DADE REST Restaurant Menu
+  4. Public (recommended)
+  5. Click "Create repository"
+
+STEP 3: Push Code to GitHub
+  Open terminal/command prompt in dade-rest folder and run:
+
+  git init
+  git add .
+  git commit -m "Initial commit"
+  git branch -M main
+  git remote add origin https://github.com/YOUR_USERNAME/dade-rest.git
+  git push -u origin main
+
+  (Replace YOUR_USERNAME with your GitHub username)
+
+STEP 4: Deploy to Vercel
+  1. Go to https://vercel.com/signup
+  2. Click "Continue with GitHub"
+  3. Authorize Vercel
+  4. Click "Import Project"
+  5. Select "dade-rest" repository
+  6. Click "Import"
+  7. Click "Deploy"
+  8. Wait 2-3 minutes...
+
+STEP 5: Your App is Live!
+  Vercel will show you a URL like:
+  https://dade-rest.vercel.app
+
+  Share this link to test!
+
+================================================================================
+WHAT TO DO IF YOU DON'T HAVE GIT:
+================================================================================
+
+1. Download Git: https://git-scm.com/download/win
+2. Install it
+3. Restart your computer
+4. Follow STEP 3 above
+
+================================================================================
+ALTERNATIVE: Use Vercel CLI
+================================================================================
+
+1. Install Vercel CLI:
+   npm install -g vercel
+
+2. Deploy:
+   cd dade-rest
+   vercel
+
+3. Follow the prompts
+4. Your app is live!
+
+================================================================================
+FEATURES THAT WORK ON VERCEL:
+================================================================================
+
+✓ Menu browsing
+✓ Shopping cart
+✓ Admin panel
+✓ Contact page
+✓ All 94 images
+✓ Responsive design
+✓ Arabic language
+✓ Database (auto-created)
+
+================================================================================
+AFTER DEPLOYMENT:
+================================================================================
+
+1. Test the app at your Vercel URL
+2. Browse menu
+3. Add items to cart
+4. Check admin panel
+5. Share the link with others
+
+================================================================================
+NEED HELP?
+================================================================================
+
+Vercel Docs: https://vercel.com/docs
+Next.js Docs: https://nextjs.org/docs
+GitHub Help: https://docs.github.com
+
+================================================================================

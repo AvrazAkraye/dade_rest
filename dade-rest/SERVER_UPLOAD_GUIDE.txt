@@ -1,0 +1,106 @@
+================================================================================
+DADE REST - SERVER UPLOAD GUIDE
+================================================================================
+
+WHAT TO UPLOAD TO YOUR SERVER:
+================================================================================
+
+FOLDERS (Upload entire folders):
+  1. src/                    - All source code
+  2. public/                 - Static files and 94 product images
+
+FILES (Upload these files):
+  1. package.json            - Dependencies list
+  2. package-lock.json       - Dependency versions
+  3. next.config.ts          - Next.js config
+  4. tsconfig.json           - TypeScript config
+  5. postcss.config.mjs      - PostCSS config
+  6. eslint.config.mjs       - ESLint config
+  7. DEPLOYMENT.md           - Deployment instructions
+  8. README.md               - Project info
+
+TOTAL SIZE: ~20-25 MB (mostly images in public/images/)
+
+================================================================================
+DO NOT UPLOAD:
+================================================================================
+  ✗ node_modules/           - Will install on server
+  ✗ .next/                  - Will build on server
+  ✗ .git/                   - Not needed
+  ✗ scripts/                - Development only
+  ✗ *.html files            - Development only
+  ✗ menu-data.json          - Development only
+  ✗ restaurant.db           - Creates automatically
+
+================================================================================
+SERVER SETUP (After uploading):
+================================================================================
+
+1. SSH into your server
+2. Navigate to project directory: cd /path/to/dade-rest
+3. Install dependencies: npm install
+4. Build project: npm run build
+5. Start server: npm start
+
+The app will run on http://localhost:3000
+
+================================================================================
+OPTIONAL: Use PM2 for Auto-Restart
+================================================================================
+
+npm install -g pm2
+pm2 start npm --name "dade-rest" -- start
+pm2 save
+pm2 startup
+
+================================================================================
+FEATURES INCLUDED:
+================================================================================
+
+✓ 94 Menu Items
+✓ 10 Categories
+✓ Shopping Cart (localStorage)
+✓ Responsive Design
+✓ Arabic Language (Droid Arabic Kufi font)
+✓ Admin Panel
+✓ Contact Page
+✓ SQLite Database (auto-created)
+✓ All Images Included
+
+================================================================================
+IMPORTANT NOTES:
+================================================================================
+
+- Database (restaurant.db) creates automatically on first run
+- All menu data is pre-loaded
+- Images stored in public/images/ (94 images)
+- Cart data saved in browser localStorage
+- No external API calls needed
+- Node.js 18+ required
+
+================================================================================
+QUICK REFERENCE:
+================================================================================
+
+Upload these 2 folders:
+  • src/
+  • public/
+
+Upload these 8 files:
+  • package.json
+  • package-lock.json
+  • next.config.ts
+  • tsconfig.json
+  • postcss.config.mjs
+  • eslint.config.mjs
+  • DEPLOYMENT.md
+  • README.md
+
+Then run:
+  npm install
+  npm run build
+  npm start
+
+Done! Your restaurant menu is live.
+
+================================================================================
