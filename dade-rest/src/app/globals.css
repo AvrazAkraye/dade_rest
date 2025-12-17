@@ -5,6 +5,11 @@
   --foreground: #171717;
 }
 
+.dark {
+  --background: #111827;
+  --foreground: #f9fafb;
+}
+
 * {
   font-family: 'Droid Arabic Kufi', serif !important;
 }
@@ -13,6 +18,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'Droid Arabic Kufi', serif !important;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 /* Hide scrollbar */

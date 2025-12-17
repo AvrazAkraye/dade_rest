@@ -61,23 +61,25 @@ function MenuContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50" dir="rtl">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors" dir="rtl">
       {/* Simple Header */}
-      <div className="bg-amber-700 text-white py-6 px-4">
+      <div className="bg-amber-700 dark:bg-amber-900 text-white py-6 px-4 transition-colors">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-2xl sm:text-3xl font-bold mb-2">🍽️ قائمة الطعام</h1>
-          <p className="text-amber-200 text-sm">Duhok - K.R.O | +964 750 812 2922</p>
+          <p className="text-amber-200 dark:text-amber-300 text-sm">Duhok - K.R.O | +964 750 812 2922</p>
         </div>
       </div>
 
       {/* Category Navigation - Horizontal Scroll */}
-      <div className="sticky top-16 z-30 bg-white border-b shadow-sm">
+      <div className="sticky top-16 z-30 bg-white dark:bg-gray-800 border-b dark:border-gray-700 shadow-sm transition-colors">
         <div className="overflow-x-auto scrollbar-hide">
           <div className="flex gap-1 p-2 min-w-max">
             <button
               onClick={() => { setSelectedCategory(null); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
-                !selectedCategory ? 'bg-amber-600 text-white' : 'bg-gray-100 text-gray-700'
+                !selectedCategory 
+                  ? 'bg-amber-600 text-white' 
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'
               }`}
             >
               الكل
@@ -89,7 +91,7 @@ function MenuContent() {
                   setSelectedCategory(null);
                   setTimeout(() => scrollToCategory(cat.name), 100);
                 }}
-                className="px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap bg-gray-100 text-gray-700 hover:bg-amber-100 transition-colors"
+                className="px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-amber-100 dark:hover:bg-gray-600 transition-colors"
               >
                 {cat.image} {cat.name}
               </button>
@@ -107,19 +109,19 @@ function MenuContent() {
         ) : items.length === 0 ? (
           <div className="text-center py-16">
             <span className="text-5xl block mb-4">😕</span>
-            <p className="text-gray-500">لا توجد أطباق</p>
+            <p className="text-gray-500 dark:text-gray-400">لا توجد أطباق</p>
           </div>
         ) : (
           Object.entries(groupedItems).map(([category, { items: categoryItems, name_en, image }]) => (
             <div key={category} id={`cat-${category}`} className="mb-8">
               {/* Category Header */}
-              <div className="flex items-center gap-3 mb-4 sticky top-[120px] bg-gray-50 py-2 z-20">
+              <div className="flex items-center gap-3 mb-4 sticky top-[120px] bg-gray-50 dark:bg-gray-900 py-2 z-20 transition-colors">
                 <span className="text-2xl">{image}</span>
                 <div>
-                  <h2 className="text-lg font-bold text-gray-800">{category}</h2>
-                  {name_en && <p className="text-xs text-gray-400">{name_en}</p>}
+                  <h2 className="text-lg font-bold text-gray-800 dark:text-white">{category}</h2>
+                  {name_en && <p className="text-xs text-gray-400 dark:text-gray-500">{name_en}</p>}
                 </div>
-                <div className="flex-1 h-px bg-gray-200"></div>
+                <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700"></div>
               </div>
               
               {/* Items Grid - 2 columns on mobile, 3 on larger */}
@@ -157,7 +159,7 @@ function MenuContent() {
 export default function MenuPage() {
   return (
     <Suspense fallback={
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="animate-spin rounded-full h-10 w-10 border-3 border-amber-500 border-t-transparent"></div>
       </div>
     }>
