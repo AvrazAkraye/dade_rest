@@ -4,8 +4,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "DADE REST - Fast Food Restaurant",
-  description: "Fast food restaurant in Duhok, Kurdistan Region of Iraq",
+  title: "La Casetta Coffee - قهوة لا كاسيتا",
+  description: "La Casetta Coffee - قائمة المشروبات والمنتجات",
 };
 
 export default function RootLayout({

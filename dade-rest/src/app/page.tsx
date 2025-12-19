@@ -1,128 +1,62 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import MenuCard from '@/components/MenuCard';
-import MenuModal from '@/components/MenuModal';
-import { MenuItem, Category } from '@/lib/types';
+import { branches } from '@/lib/api';
 
 export default function Home() {
-  const [featuredItems, setFeaturedItems] = useState<MenuItem[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
-
-  useEffect(() => {
-    fetch('/api/menu?featured=true').then(res => res.json()).then(setFeaturedItems);
-    fetch('/api/categories').then(res => res.json()).then(setCategories);
-  }, []);
-
   return (
-    <div dir="rtl">
+    <div dir="rtl" className="min-h-screen bg-gradient-to-b from-amber-50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Hero */}
-      <section className="bg-amber-700 dark:bg-amber-900 text-white py-12 px-4 text-center transition-colors">
-        <span className="text-6xl block mb-4">🍽️</span>
-        <h1 className="text-3xl sm:text-4xl font-black mb-2">DADE REST</h1>
-        <p className="text-amber-200 dark:text-amber-300 mb-1">Fast food</p>
-        <p className="text-amber-300 dark:text-amber-400 text-sm mb-6">Duhok - K.R.O | +964 750 812 2922</p>
-        
-        <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-sm mx-auto">
-          <Link
-            href="/menu"
-            className="bg-white text-amber-700 dark:bg-gray-800 dark:text-amber-400 px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors"
-          >
-            <span>🍕</span> تصفح القائمة
-          </Link>
-          <a
-            href="tel:+9647508122922"
-            className="bg-green-500 text-white px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2"
-          >
-            <span>📞</span> اطلب الآن
-          </a>
-        </div>
+      <section className="py-16 px-4 text-center">
+        <span className="text-7xl block mb-6">☕</span>
+        <h1 className="text-4xl sm:text-5xl font-black mb-3 text-amber-800 dark:text-amber-400">
+          La Casetta Coffee
+        </h1>
+        <p className="text-amber-600 dark:text-amber-300 mb-2 text-lg">قهوة لا كاسيتا</p>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mb-10">اختر الفرع لعرض القائمة</p>
       </section>
 
-      {/* Categories */}
-      <section className="py-8 px-4 bg-white dark:bg-gray-800 transition-colors">
-        <h2 className="text-xl font-bold text-center mb-6 text-gray-900 dark:text-white">الأقسام</h2>
-        <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 max-w-2xl mx-auto">
-          {categories.slice(0, 10).map((cat) => (
-            <Link
-              key={cat.id}
-              href={`/menu?category=${cat.id}`}
-              className="bg-amber-50 dark:bg-gray-700 rounded-xl p-3 text-center hover:bg-amber-100 dark:hover:bg-gray-600 transition-colors"
-            >
-              <span className="text-2xl block mb-1">{cat.image}</span>
-              <p className="text-xs font-medium text-gray-700 dark:text-gray-200 line-clamp-1">{cat.name}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Featured */}
-      <section className="py-8 px-4 bg-gray-50 dark:bg-gray-900 transition-colors">
-        <h2 className="text-xl font-bold text-center mb-6 text-gray-900 dark:text-white">⭐ الأطباق المميزة</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto">
-          {featuredItems.slice(0, 8).map((item) => (
-            <MenuCard key={item.id} item={item} onClick={() => setSelectedItem(item)} />
-          ))}
-        </div>
-        <div className="text-center mt-6">
-          <Link
-            href="/menu"
-            className="inline-block bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-xl font-bold transition-colors"
-          >
-            عرض الكل ←
-          </Link>
-        </div>
-      </section>
-
-      {/* Location */}
-      <section className="py-10 px-4 bg-white dark:bg-gray-800 transition-colors">
-        <div className="max-w-2xl mx-auto text-center">
-          <span className="text-4xl block mb-3">📍</span>
-          <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">موقعنا</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">دهوك، إقليم كردستان العراق</p>
-          
-          {/* Map Embed */}
-          <div className="rounded-xl overflow-hidden mb-4 shadow-lg">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3224.5!2d42.9503!3d36.8669!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzbCsDUyJzAwLjgiTiA0MsKwNTcnMDEuMSJF!5e0!3m2!1sen!2s!4v1234567890"
-              width="100%"
-              height="250"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="w-full"
-            ></iframe>
+      {/* Branch Selection */}
+      <section className="px-4 pb-16">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-xl font-bold text-center mb-8 text-gray-800 dark:text-white">
+            🏪 اختر الفرع
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {branches.map((branch) => (
+              <Link
+                key={branch.id}
+                href={`/branch/${branch.id}`}
+                className="group bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-amber-400 text-center"
+              >
+                <span className="text-6xl block mb-4 group-hover:scale-110 transition-transform">
+                  {branch.image}
+                </span>
+                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+                  {branch.name}
+                </h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                  {branch.name_en}
+                </p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">
+                  {branch.description}
+                </p>
+                <div className="mt-4 inline-flex items-center gap-2 text-amber-600 dark:text-amber-400 font-medium">
+                  عرض القائمة
+                  <span className="group-hover:translate-x-[-4px] transition-transform">←</span>
+                </div>
+              </Link>
+            ))}
           </div>
-          
-          <a
-            href="https://maps.google.com/?q=36.8669,42.9503"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-bold transition-colors"
-          >
-            <span>🗺️</span>
-            افتح في خرائط جوجل
-          </a>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-10 px-4 bg-amber-600 dark:bg-amber-800 text-white text-center transition-colors">
-        <span className="text-4xl block mb-3">📞</span>
-        <h2 className="text-xl font-bold mb-2">جاهز للطلب؟</h2>
-        <p className="text-amber-100 dark:text-amber-200 mb-4 text-sm">اتصل بنا الآن</p>
-        <a
-          href="tel:+9647508122922"
-          className="inline-block bg-white text-amber-600 dark:bg-gray-800 dark:text-amber-400 px-6 py-3 rounded-xl font-bold transition-colors"
-        >
-          +964 750 812 2922
-        </a>
-      </section>
-
-      <MenuModal item={selectedItem} onClose={() => setSelectedItem(null)} />
+      {/* Footer */}
+      <footer className="py-8 px-4 text-center border-t dark:border-gray-700">
+        <p className="text-gray-500 dark:text-gray-400 text-sm">
+          © 2024 La Casetta Coffee. جميع الحقوق محفوظة
+        </p>
+      </footer>
     </div>
   );
 }
