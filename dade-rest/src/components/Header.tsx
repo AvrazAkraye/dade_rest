@@ -1,11 +1,17 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+  
+  // Check if we're on a branch page
+  const isBranchPage = pathname?.startsWith('/lacasetta');
 
   useEffect(() => {
     setMounted(true);
@@ -26,31 +32,25 @@ export default function Header() {
     document.documentElement.classList.toggle('dark', newTheme === 'dark');
   };
 
+  // Hide header on branch pages (they have their own header)
+  if (isBranchPage) {
+    return null;
+  }
+
   return (
-    <header className="bg-amber-800 dark:bg-gray-800 text-white sticky top-0 z-50 transition-colors">
+    <header className="bg-primary dark:bg-gray-800 text-white sticky top-0 z-50 transition-colors">
       <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl">☕</span>
+          <Image src="/lacasetta-logo.png" alt="La Casetta Coffee" width={40} height={40} className="rounded-full" />
           <div>
-            <h1 className="font-bold text-lg leading-tight">La Casetta</h1>
-            <p className="text-[10px] text-amber-200 dark:text-gray-400">Coffee</p>
+            <h1 className="font-english font-bold text-lg leading-tight">La Casetta</h1>
+            <p className="font-english text-[10px] text-white/70">Coffee</p>
           </div>
         </Link>
 
-        {/* Nav */}
         <div className="flex items-center gap-2">
-          <Link href="/" className="px-3 py-2 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors">
-            الفروع
-          </Link>
-          
-          {/* Dark Mode Toggle */}
           {mounted && (
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-white/10 transition-colors"
-              aria-label="Toggle dark mode"
-            >
+            <button onClick={toggleTheme} className="p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Toggle dark mode">
               {theme === 'dark' ? '☀️' : '🌙'}
             </button>
           )}

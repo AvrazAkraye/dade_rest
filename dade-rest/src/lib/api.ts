@@ -12,9 +12,8 @@ export interface Product {
   id: number;
   name: string;
   description?: string;
-  sale_price: number;
-  thumbnail_id?: number;
-  gallery?: string;
+  price: number;
+  image?: string;
   category_id: number;
 }
 
@@ -26,35 +25,62 @@ export interface Branch {
   image: string;
 }
 
+// API Response types
+interface ApiCategoryRaw {
+  ID: string;
+  NOM: string;
+  DESCRIPTION: string;
+  product_count: number;
+}
+
+interface ApiProductRaw {
+  ID: string;
+  DESIGN: string;
+  DESCRIPTION: string;
+  PRIX_DE_VENTE: string;
+  APERCU: string;
+  image_url?: string;
+  REF_CATEGORIE: string;
+}
+
+interface CategoriesApiResponse {
+  status: string;
+  data: ApiCategoryRaw[];
+}
+
+interface ProductsApiResponse {
+  status: string;
+  products: ApiProductRaw[];
+  count: number;
+}
+
 // Hardcoded branches for La Casetta Coffee
 export const branches: Branch[] = [
-  { id: 1, name: 'الفرع الأول', name_en: 'Branch 1', description: 'الفرع الرئيسي', image: '☕' },
-  { id: 2, name: 'الفرع الثاني', name_en: 'Branch 2', description: 'الفرع الثاني', image: '🏪' },
+  { id: 1, name: 'دهوك', name_en: 'Duhok La Casetta', description: 'شارع المطاعم - أكري', image: '☕' },
+  { id: 2, name: 'سيجي', name_en: 'Seche La Casetta', description: 'سيجي - دهوك', image: '🏪' },
 ];
 
 export async function getCategories(): Promise<Category[]> {
   try {
     const res = await fetch(`${BASE_URL}/categories/all/list`, {
-      next: { revalidate: 60 }
+      cache: 'no-store'
     });
     if (!res.ok) throw new Error('Failed to fetch categories');
-    return res.json();
+    const json: CategoriesApiResponse = await res.json();
+    
+    if (json.status !== 'success' || !Array.isArray(json.data)) {
+      return [];
+    }
+    
+    return json.data.map(cat => ({
+      id: parseInt(cat.ID),
+      name: cat.NOM,
+      description: cat.DESCRIPTION,
+      products_count: cat.product_count
+    }));
   } catch (error) {
     console.error('Error fetching categories:', error);
     return [];
-  }
-}
-
-export async function getCategoryById(id: number): Promise<Category | null> {
-  try {
-    const res = await fetch(`${BASE_URL}/categories/${id}`, {
-      next: { revalidate: 60 }
-    });
-    if (!res.ok) throw new Error('Failed to fetch category');
-    return res.json();
-  } catch (error) {
-    console.error('Error fetching category:', error);
-    return null;
   }
 }
 
@@ -67,29 +93,25 @@ export async function getProductsByCategoryAndBranch(
     if (branchId) url += `&ref_branch=${branchId}`;
     
     const res = await fetch(url, {
-      next: { revalidate: 60 }
+      cache: 'no-store'
     });
     if (!res.ok) throw new Error('Failed to fetch products');
-    return res.json();
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    return [];
-  }
-}
-
-export async function getAllProductsForBranch(branchId: number): Promise<Product[]> {
-  try {
-    const categories = await getCategories();
-    const allProducts: Product[] = [];
+    const json: ProductsApiResponse = await res.json();
     
-    for (const category of categories) {
-      const products = await getProductsByCategoryAndBranch(category.id, branchId);
-      allProducts.push(...products);
+    if (json.status !== 'success' || !Array.isArray(json.products)) {
+      return [];
     }
     
-    return allProducts;
+    return json.products.map(prod => ({
+      id: parseInt(prod.ID),
+      name: prod.DESIGN,
+      description: prod.DESCRIPTION,
+      price: parseFloat(prod.PRIX_DE_VENTE) || 0,
+      image: prod.image_url || prod.APERCU || '',
+      category_id: parseInt(prod.REF_CATEGORIE)
+    }));
   } catch (error) {
-    console.error('Error fetching all products:', error);
+    console.error('Error fetching products:', error);
     return [];
   }
 }
