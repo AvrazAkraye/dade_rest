@@ -139,10 +139,18 @@ export default function BranchMenu({ config }: { config: BranchConfig }) {
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-8">
             {categories.map((cat) => (
               <button key={cat.id} onClick={() => handleCategorySelect(cat.id)}
-                className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center shadow-md hover:shadow-lg transition-all hover:border-primary border-2 border-transparent">
-                <span className="text-3xl block mb-2">☕</span>
-                <p className="font-english text-xs font-medium text-gray-700 dark:text-gray-200 line-clamp-2">{cat.name}</p>
-                <p className="text-[10px] text-gray-400 mt-1">{products[cat.id]?.length || 0} منتج</p>
+                className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all hover:border-primary border-2 border-transparent">
+                <div className="aspect-square bg-gray-100 dark:bg-gray-700 relative">
+                  {cat.image ? (
+                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-3xl">☕</div>
+                  )}
+                </div>
+                <div className="p-2">
+                  <p className="font-english text-xs font-medium text-gray-700 dark:text-gray-200 line-clamp-2">{cat.name}</p>
+                  <p className="text-[10px] text-gray-400 mt-1">{products[cat.id]?.length || 0} منتج</p>
+                </div>
               </button>
             ))}
           </div>
@@ -160,12 +168,8 @@ export default function BranchMenu({ config }: { config: BranchConfig }) {
             >
               <span className="text-xl">☰</span>
               <span>الأقسام</span>
-              {selectedCategory && (
-                <span className="bg-white/20 px-2 py-0.5 rounded text-xs">
-                  {categories.find(c => c.id === selectedCategory)?.name}
-                </span>
-              )}
             </button>
+            <span className="font-english font-bold text-sm text-gray-800 dark:text-white">{config.name_en}</span>
             <button 
               onClick={() => { setSelectedCategory(null); setSearchQuery(''); }}
               className={`px-4 py-2 rounded-lg text-sm font-medium ${!selectedCategory ? 'bg-primary text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200'}`}
@@ -175,18 +179,21 @@ export default function BranchMenu({ config }: { config: BranchConfig }) {
           </div>
           
           {/* Desktop: Horizontal Scroll */}
-          <div className="hidden sm:block overflow-x-auto scrollbar-hide">
-            <div className="flex gap-1 p-2 min-w-max">
-              <button onClick={() => { setSelectedCategory(null); setSearchQuery(''); }}
-                className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${!selectedCategory && !searchQuery ? 'bg-primary text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white'}`}>
-                الكل
-              </button>
-              {categories.map((cat) => (
-                <button key={cat.id} onClick={() => handleCategorySelect(cat.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors font-english ${selectedCategory === cat.id ? 'bg-primary text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white'}`}>
-                  {cat.name}
+          <div className="hidden sm:flex items-center gap-4 p-2">
+            <span className="font-english font-bold text-sm text-gray-800 dark:text-white whitespace-nowrap">{config.name_en}</span>
+            <div className="flex-1 overflow-x-auto scrollbar-hide">
+              <div className="flex gap-1 min-w-max">
+                <button onClick={() => { setSelectedCategory(null); setSearchQuery(''); }}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${!selectedCategory && !searchQuery ? 'bg-primary text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white'}`}>
+                  الكل
                 </button>
-              ))}
+                {categories.map((cat) => (
+                  <button key={cat.id} onClick={() => handleCategorySelect(cat.id)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors font-english ${selectedCategory === cat.id ? 'bg-primary text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white'}`}>
+                    {cat.name}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -321,7 +328,7 @@ function ProductCard({ product, onClick, onAddToCart, isAdded }: { product: Prod
       <div className="p-4">
         <h3 className="font-english font-semibold text-gray-800 dark:text-white text-sm line-clamp-2 mb-2 cursor-pointer hover:text-primary dark:hover:text-[#e8b4b4]" onClick={onClick}>{product.name}</h3>
         <div className="flex items-center justify-between">
-          <p className="text-primary dark:text-[#e8b4b4] font-bold text-base">{product.price.toLocaleString()} <span className="text-xs">IQD</span></p>
+          <p className="text-[#601d1c] dark:text-[#e8b4b4] font-bold text-base">{product.price.toLocaleString()} <span className="text-xs">IQD</span></p>
           <button onClick={(e) => { e.stopPropagation(); onAddToCart(); }}
             className={`relative overflow-hidden ${isAdded ? 'bg-green-500' : 'bg-gradient-to-br from-[#601d1c] via-[#7a2928] to-[#601d1c]'} text-white w-11 h-11 rounded-xl flex items-center justify-center text-xl transition-all duration-300 shadow-lg hover:shadow-xl ${isAdded ? 'scale-110' : 'hover:scale-105'} border border-white/20 group`}>
             <span className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-white/30 opacity-0 group-hover:opacity-100 transition-opacity"></span>
@@ -336,18 +343,93 @@ function ProductCard({ product, onClick, onAddToCart, isAdded }: { product: Prod
 function ProductModal({ product, onClose, onAddToCart }: { product: Product; onClose: () => void; onAddToCart: () => void }) {
   const [imgError, setImgError] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
   const hasImage = product.image && product.image.length > 0 && !product.image.includes('logo.png');
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStart) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStart - touchEnd;
+    // Swipe down to close zoom
+    if (Math.abs(diff) > 100) {
+      setIsZoomed(false);
+    }
+    setTouchStart(null);
+  };
+
+  // Zoom Mode View
+  if (isZoomed && hasImage && !imgError) {
+    return (
+      <div 
+        className="fixed inset-0 bg-black z-50 flex items-center justify-center"
+        onClick={() => setIsZoomed(false)}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <img 
+          src={product.image} 
+          alt={product.name} 
+          className="max-w-full max-h-full object-contain"
+          onError={() => setImgError(true)}
+        />
+        {/* Close button */}
+        <button 
+          onClick={() => setIsZoomed(false)} 
+          className="absolute top-4 right-4 bg-white/20 backdrop-blur text-white w-12 h-12 rounded-full flex items-center justify-center text-2xl"
+        >
+          ✕
+        </button>
+        {/* Product info overlay */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+          <h3 className="font-english text-white text-xl font-bold mb-2">{product.name}</h3>
+          <div className="flex items-center justify-between">
+            <span className="text-white/90 text-lg font-bold">{product.price.toLocaleString()} IQD</span>
+            <button 
+              onClick={(e) => { e.stopPropagation(); for(let i = 0; i < quantity; i++) onAddToCart(); setIsZoomed(false); onClose(); }}
+              className="bg-primary text-white px-6 py-3 rounded-full font-bold flex items-center gap-2"
+            >
+              <span>🛒</span> أضف للسلة
+            </button>
+          </div>
+        </div>
+        {/* Swipe hint */}
+        <div className="absolute top-1/2 left-4 text-white/50 text-sm">
+          <span>↔️ اسحب للإغلاق</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-lg overflow-hidden animate-slideUp shadow-2xl" onClick={e => e.stopPropagation()}>
         <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700">
           {hasImage && !imgError ? (
-            <img src={product.image} alt={product.name} className="w-full h-full object-cover" onError={() => setImgError(true)} />
+            <img 
+              src={product.image} 
+              alt={product.name} 
+              className="w-full h-full object-cover cursor-zoom-in" 
+              onError={() => setImgError(true)}
+              onClick={() => setIsZoomed(true)}
+            />
           ) : (
             <div className="w-full h-full flex items-center justify-center"><div className="text-center"><span className="text-9xl block mb-2">☕</span><span className="font-english text-gray-400 text-sm">La Casetta Coffee</span></div></div>
           )}
           <button onClick={onClose} className="absolute top-4 right-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur text-gray-800 dark:text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">✕</button>
+          {/* Zoom button */}
+          {hasImage && !imgError && (
+            <button 
+              onClick={() => setIsZoomed(true)} 
+              className="absolute top-4 left-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur text-gray-800 dark:text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+            >
+              🔍
+            </button>
+          )}
           <div className="absolute bottom-4 left-4 bg-gradient-to-r from-primary to-primary-light text-white px-5 py-2 rounded-full font-bold shadow-lg">{product.price.toLocaleString()} IQD</div>
         </div>
         <div className="p-6" dir="rtl">
@@ -363,7 +445,7 @@ function ProductModal({ product, onClose, onAddToCart }: { product: Product; onC
           </div>
           <div className="flex items-center justify-between mb-4">
             <span className="text-gray-600 dark:text-gray-400">المجموع:</span>
-            <span className="text-2xl font-bold text-primary dark:text-[#e8b4b4]">{(product.price * quantity).toLocaleString()} IQD</span>
+            <span className="text-2xl font-bold text-[#601d1c] dark:text-[#e8b4b4]">{(product.price * quantity).toLocaleString()} IQD</span>
           </div>
           {/* Add to Cart Button */}
           <div className="relative">
@@ -403,12 +485,12 @@ function CartModal({ cart, onClose, onUpdateQuantity, onRemove, onOrder, total }
                   <div className="w-16 h-16 bg-gradient-to-br from-[#fdf8f8] to-[#f5e6e6] dark:from-gray-700 dark:to-gray-600 rounded-xl flex items-center justify-center text-3xl flex-shrink-0">☕</div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-english font-semibold text-gray-800 dark:text-white text-sm truncate">{item.product.name}</h3>
-                    <p className="text-primary dark:text-[#e8b4b4] font-bold">{(item.product.price * item.quantity).toLocaleString()} IQD</p>
+                    <p className="text-[#601d1c] dark:text-[#e8b4b4] font-bold">{(item.product.price * item.quantity).toLocaleString()} IQD</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <button onClick={() => onUpdateQuantity(item.product.id, item.quantity - 1)} className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-700 dark:text-white font-bold hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600">−</button>
                     <span className="w-6 text-center font-bold text-gray-800 dark:text-white">{item.quantity}</span>
-                    <button onClick={() => onUpdateQuantity(item.product.id, item.quantity + 1)} className="w-8 h-8 bg-gradient-to-r from-primary to-primary-light text-white rounded-full flex items-center justify-center font-bold">+</button>
+                    <button onClick={() => onUpdateQuantity(item.product.id, item.quantity + 1)} className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-700 dark:text-white font-bold hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600">+</button>
                   </div>
                 </div>
               ))}
@@ -419,7 +501,7 @@ function CartModal({ cart, onClose, onUpdateQuantity, onRemove, onOrder, total }
           <div className="p-5 border-t dark:border-gray-800 bg-gradient-to-r from-gray-50 to-white dark:from-gray-800/50 dark:to-gray-900">
             <div className="flex justify-between items-center mb-4">
               <span className="text-gray-600 dark:text-gray-300 text-lg">المجموع الكلي:</span>
-              <span className="text-3xl font-bold text-primary dark:text-[#e8b4b4]">{total.toLocaleString()} <span className="text-base">IQD</span></span>
+              <span className="text-3xl font-bold text-[#601d1c] dark:text-[#e8b4b4]">{total.toLocaleString()} <span className="text-base">IQD</span></span>
             </div>
             <button onClick={onOrder} className="w-full bg-gradient-to-r from-green-500 via-green-600 to-green-500 text-white py-4 rounded-2xl font-bold text-lg hover:shadow-xl transition-all flex items-center justify-center gap-3 hover:scale-[1.02]">
               <span className="text-2xl">📱</span> اطلب عبر واتساب

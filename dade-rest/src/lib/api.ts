@@ -6,6 +6,7 @@ export interface Category {
   name: string;
   description?: string;
   products_count?: number;
+  image?: string;
 }
 
 export interface Product {
@@ -31,6 +32,8 @@ interface ApiCategoryRaw {
   NOM: string;
   DESCRIPTION: string;
   product_count: number;
+  image_url?: string;
+  THUMB?: string;
 }
 
 interface ApiProductRaw {
@@ -76,12 +79,27 @@ export async function getCategories(): Promise<Category[]> {
       id: parseInt(cat.ID),
       name: cat.NOM,
       description: cat.DESCRIPTION,
-      products_count: cat.product_count
+      products_count: cat.product_count,
+      image: cat.image_url || ''
     }));
   } catch (error) {
     console.error('Error fetching categories:', error);
     return [];
   }
+}
+
+// Helper function to strip HTML tags from text
+function stripHtml(html: string): string {
+  if (!html) return '';
+  // Remove HTML tags and decode common entities
+  return html
+    .replace(/<[^>]*>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .trim();
 }
 
 export async function getProductsByCategoryAndBranch(
@@ -102,14 +120,20 @@ export async function getProductsByCategoryAndBranch(
       return [];
     }
     
-    return json.products.map(prod => ({
-      id: parseInt(prod.ID),
-      name: prod.DESIGN,
-      description: prod.DESCRIPTION,
-      price: parseFloat(prod.PRIX_DE_VENTE) || 0,
-      image: prod.image_url || prod.APERCU || '',
-      category_id: parseInt(prod.REF_CATEGORIE)
-    }));
+    return json.products.map(prod => {
+      const rawDesc = prod.DESCRIPTION || '';
+      // Strip HTML and only keep if it has meaningful text content
+      const cleanDesc = stripHtml(rawDesc);
+      
+      return {
+        id: parseInt(prod.ID),
+        name: prod.DESIGN,
+        description: cleanDesc.length > 0 ? cleanDesc : undefined,
+        price: parseFloat(prod.PRIX_DE_VENTE) || 0,
+        image: prod.image_url || prod.APERCU || '',
+        category_id: parseInt(prod.REF_CATEGORIE)
+      };
+    });
   } catch (error) {
     console.error('Error fetching products:', error);
     return [];

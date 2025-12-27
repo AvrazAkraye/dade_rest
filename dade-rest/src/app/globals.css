@@ -8,11 +8,13 @@
   --primary: #601d1c;
   --primary-light: #7a2928;
   --primary-dark: #4a1615;
+  --primary-text: #601d1c;
 }
 
 .dark {
   --background: #111827;
   --foreground: #f9fafb;
+  --primary-text: #e8b4b4;
 }
 
 /* Arabic font for Arabic text */
@@ -45,7 +47,7 @@ body {
 }
 
 .text-primary {
-  color: var(--primary);
+  color: var(--primary-text);
 }
 
 .border-primary {

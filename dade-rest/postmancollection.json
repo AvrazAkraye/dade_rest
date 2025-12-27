@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "lacasettacoffee-api-2024",
+		"name": "La Casetta Coffee API",
+		"description": "API collection for La Casetta Coffee - Categories and Products endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "Get All Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://lacasettacoffee.com/rest/api/nexopos/categories/all/list",
+							"protocol": "https",
+							"host": [
+								"lacasettacoffee",
+								"com"
+							],
+							"path": [
+								"rest",
+								"api",
+								"nexopos",
+								"categories",
+								"all",
+								"list"
+							]
+						},
+						"description": "Get all categories with full data including product count. This endpoint is public and does not require authentication."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://lacasettacoffee.com/rest/api/nexopos/categories/:id",
+							"protocol": "https",
+							"host": [
+								"lacasettacoffee",
+								"com"
+							],
+							"path": [
+								"rest",
+								"api",
+								"nexopos",
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Category ID"
+								}
+							]
+						},
+						"description": "Get a single category by ID"
+					},
+					"response": []
+				}
+			],
+			"description": "Category endpoints"
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get Products by Category and Branch (Query Params)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://lacasettacoffee.com/rest/api/nexopos/products/by-category-branch?category_id=1&ref_branch=1",
+							"protocol": "https",
+							"host": [
+								"lacasettacoffee",
+								"com"
+							],
+							"path": [
+								"rest",
+								"api",
+								"nexopos",
+								"products",
+								"by-category-branch"
+							],
+							"query": [
+								{
+									"key": "category_id",
+									"value": "1",
+									"description": "Category ID (required)",
+									"disabled": false
+								},
+								{
+									"key": "ref_branch",
+									"value": "1",
+									"description": "Branch ID (optional)",
+									"disabled": false
+								}
+							]
+						},
+						"description": "Get products filtered by category and optionally by branch. This endpoint is public and does not require authentication."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products by Category and Branch (Path Param)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://lacasettacoffee.com/rest/api/nexopos/products/by-category-branch/:category_id?ref_branch=1",
+							"protocol": "https",
+							"host": [
+								"lacasettacoffee",
+								"com"
+							],
+							"path": [
+								"rest",
+								"api",
+								"nexopos",
+								"products",
+								"by-category-branch",
+								":category_id"
+							],
+							"query": [
+								{
+									"key": "ref_branch",
+									"value": "1",
+									"description": "Branch ID (optional)",
+									"disabled": false
+								}
+							],
+							"variable": [
+								{
+									"key": "category_id",
+									"value": "1",
+									"description": "Category ID"
+								}
+							]
+						},
+						"description": "Get products filtered by category (path parameter) and optionally by branch (query parameter). This endpoint is public and does not require authentication."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products by Category Only",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://lacasettacoffee.com/rest/api/nexopos/products/by-category-branch?category_id=1",
+							"protocol": "https",
+							"host": [
+								"lacasettacoffee",
+								"com"
+							],
+							"path": [
+								"rest",
+								"api",
+								"nexopos",
+								"products",
+								"by-category-branch"
+							],
+							"query": [
+								{
+									"key": "category_id",
+									"value": "1",
+									"description": "Category ID (required)",
+									"disabled": false
+								}
+							]
+						},
+						"description": "Get all products in a category without branch filter"
+					},
+					"response": []
+				}
+			],
+			"description": "Product endpoints"
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://lacasettacoffee.com/rest/api",
+			"type": "string"
+		}
+	]
+}
+

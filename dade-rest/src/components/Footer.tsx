@@ -10,10 +10,6 @@ export default function Footer() {
         </div>
         <p className="text-white/70 text-sm mb-4">قهوة لا كاسيتا</p>
         
-        <div className="flex justify-center gap-4 mb-4 text-sm">
-          <Link href="/" className="text-white/60 hover:text-white transition-colors">الفروع</Link>
-        </div>
-        
         <p className="text-white/40 text-xs mt-6">
           © {new Date().getFullYear()} <span className="font-english">La Casetta Coffee</span>
         </p>

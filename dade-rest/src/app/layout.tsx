@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "La Casetta Coffee - قهوة لا كاسيتا",
@@ -37,10 +35,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
-        <Header />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+      <body className="antialiased" suppressHydrationWarning>
+        {children}
       </body>
     </html>
   );
